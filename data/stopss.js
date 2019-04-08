@@ -774,17 +774,6 @@ var geojson={"type": "FeatureCollection",
 	"type": "Feature",
 	"geometry": {
 		"type": "Point",
-		"coordinates": [19.939206944444443, 50.06639444444444]
-	},
-	"properties": {
-		"title": "Basztowa LOT",
-		"description": ""
-	}
-},
-{
-	"type": "Feature",
-	"geometry": {
-		"type": "Point",
 		"coordinates": [19.93756972222222, 50.06961722222222]
 	},
 	"properties": {
@@ -800,17 +789,6 @@ var geojson={"type": "FeatureCollection",
 	},
 	"properties": {
 		"title": "Teatr S³owackiego",
-		"description": ""
-	}
-},
-{
-	"type": "Feature",
-	"geometry": {
-		"type": "Point",
-		"coordinates": [19.945006111111113, 50.064665]
-	},
-	"properties": {
-		"title": "Dworzec G³ówny",
 		"description": ""
 	}
 },
@@ -1350,17 +1328,6 @@ var geojson={"type": "FeatureCollection",
 	},
 	"properties": {
 		"title": "Bia³ucha",
-		"description": ""
-	}
-},
-{
-	"type": "Feature",
-	"geometry": {
-		"type": "Point",
-		"coordinates": [19.98395361111111, 50.06301694444444]
-	},
-	"properties": {
-		"title": "Kraków Plaza",
 		"description": ""
 	}
 },

@@ -1,9 +1,159 @@
+
 html,
 body,
 #map {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+	height: 100%;
+	width: 100%; 
+	margin: 0;
+	padding: 0;
 }
 
-#mapid { height: 100%; width: 100%; }
+.mapboxgl-popup {
+	max-width: 200px;
+	z-index: 11;
+}
+.mapboxgl-popup-content {
+	text-align: center;
+	font-family: 'Open Sans', sans-serif;
+	z-index: 12;
+}
+
+/* 
+Predziały dla z-index 
+0 - mapa
+90-99 - godzina, itp.
+1-9 - markery
+11-19 - popup
+*/
+
+#show-time {
+	background-color: rgb(181,198,137,0.75); /* ced9b1 b5c689*/
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 5px 10px 5px 10px;
+	border-bottom-right-radius: 15px;
+	text-align: center;
+	min-width: 50px;
+	z-index: 99;
+}	
+
+.stop-marker {
+	background-image: url('./img/tram.png');
+	background-size: cover;
+	width: 12.5px;
+	height: 12.5px;
+	border-radius: 50%;
+	cursor: pointer;
+	z-index: 1;
+}
+
+.tram-marker {
+	background-color: #0084ad;
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	cursor: pointer;
+	z-index: 9;
+}
+
+.tram-marker-good {
+	background-color: #00FF00;
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	cursor: pointer;
+	z-index: 9;
+}
+
+.tram-marker-good-average {
+	background-color: #7FFF00;
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	cursor: pointer;
+	z-index: 9;
+}
+
+.tram-marker-average {
+	background-color: #FFFF00;
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	cursor: pointer;
+	z-index: 9;
+}
+
+.tram-marker-average-bad {
+	background-color: #FFFF00;
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	cursor: pointer;
+	z-index: 9;
+}
+
+
+.tram-marker-bad {
+	background-color: #FF0000;
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	cursor: pointer;
+	z-index: 9;
+}
+
+.colors {
+	background: #44acab;
+	position: absolute;
+	top: 100px;
+	left: 50px;
+	background-image: linear-gradient(270deg, #ff0000, #ff3800, #ff7100, #ffaa00, #ffe200, #e2ff00, #a9ff00, #71ff00, #38ff00, #00ff00);
+	width: 200px;
+	height: 20px;
+}
+
+button, img {
+	padding: 0;
+	outline: 0;
+	border: none;
+	background: none;
+	opacity: 0.75;
+}
+
+img:hover{
+	opacity: 1;
+}
+
+.pause-button{
+	background-image: url('./img/pause.png');
+	background-repeat: no-repeat;
+	position: absolute;
+	top: 35px;
+	left: 5px;
+	padding: 0;
+	margin: 0;
+	z-index: 91;
+}
+
+.play-button{ 
+	background-image: url('./img/play.png');
+	background-repeat: no-repeat;
+	position: absolute;
+	top: 35px;
+	left: 25px;
+	padding: 0;
+	margin: 0;
+	z-index: 91;
+}
+
+.play-faster-button{ 
+	background-image: url('./img/play-faster.png');
+	background-repeat: no-repeat;
+	position: absolute;
+	top: 35px;
+	left: 45px;
+	padding: 0;
+	margin: 0;
+	z-index: 91;
+}
