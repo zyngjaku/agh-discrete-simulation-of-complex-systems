@@ -1,5 +1,5 @@
-class tram {
-    constructor(number, direction, longitude, latitude, lastStop, nextStop, marker) {
+class Tram {
+    constructor(number, direction, longitude, latitude, lastStop, nextStop, markerColor) {
         this.number=number;
 		this.direction=direction;
 		this.longitude=longitude;
@@ -7,7 +7,9 @@ class tram {
 		this.lastStop=lastStop;
 		this.nextStop=nextStop;
 		this.waiting=0;
-		this.marker=marker;
+		this.marker=null;
+		this.markerColor=markerColor;
+		this.numberOfPassengers=0;
     }
 	
 	getDirection(){
@@ -41,8 +43,24 @@ class tram {
 	getDirection(){
 		return this.direction;
 	}
+
+	setMarker(marker){
+		this.marker=marker;
+	}
 	
 	getMarker(){
 		return this.marker;
+	}
+	
+	getMarkerColor(){
+		return this.markerColor;
+	}
+	
+	setNumberOfPassengers(numberOfPassengers){
+		this.numberOfPassengers=numberOfPassengers;
+	}
+	
+	getNumberOfPassengers(){
+		return this.numberOfPassengers;
 	}
 }

@@ -1,3 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu:300');
+
+:root {
+  --color-crows-1: #6BC926;  
+  --color-crows-2: #D1CF1E;  
+  --color-crows-3: #EFBB0F;  
+  --color-crows-4: #EF7120;  
+  --color-crows-5: #EF2A36;  
+}
 
 html,
 body,
@@ -6,6 +15,8 @@ body,
 	width: 100%; 
 	margin: 0;
 	padding: 0;
+	overflow: hidden;
+	font-family: 'Ubuntu', sans-serif;
 }
 
 .mapboxgl-popup {
@@ -19,12 +30,89 @@ body,
 }
 
 /* 
-Predziały dla z-index 
+Predziały z-index 
 0 - mapa
 90-99 - godzina, itp.
 1-9 - markery
 11-19 - popup
 */
+
+
+.box-shadow {
+	/*box-sizing: border-box;*/
+	position: absolute;
+	left: 0;
+	bottom: -100px;
+	width: 150px;
+	height: 120px;
+	z-index: 99;
+	
+	transition: transform 0.4s;
+	
+	
+	
+	background-color: rgb(181,198,137,0.75);
+	padding: 5px 5px 5px 5px;
+	border-radius: 0 5px 0 0;
+}
+
+.box-shadow p {
+	position: absolute;
+	top: 30px;
+	text-align: right;
+	/*
+	-webkit-transform:rotate(-90deg);
+    -moz-transform:rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    -ms-transform:rotate(-90deg);
+    transform: rotate(-90deg);
+	*/
+}
+/*
+.box-shadow:hover {
+	transform: translateY(-100px);
+}
+*/
+/*
+.box-shadow p {
+	position: absolute;
+	bottom: 10px;
+	
+	
+	transform: rotate(-90deg);
+	-webkit-transform: rotate(-90deg);
+	-moz-transform: rotate(-90deg);
+	-ms-transform: rotate(-90deg);
+	-o-transform: rotate(-90deg);
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+
+#wrapper .text {
+position:relative;
+bottom:30px;
+left:0px;
+visibility:hidden;
+}
+
+#wrapper:hover .text {
+visibility:visible;
+}
+*/
+
+.box-shadow-column {
+	float: left;
+	width: 20%;
+	height: 20px;
+	padding: 0;
+	margin: 0;
+}
+
+.box-shadow-row:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
 
 #show-time {
 	background-color: rgb(181,198,137,0.75); /* ced9b1 b5c689*/
@@ -48,8 +136,10 @@ Predziały dla z-index
 	z-index: 1;
 }
 
-.tram-marker {
-	background-color: #0084ad;
+
+
+.tram-crowd-1 {
+	background-color: var(--color-crows-1);
 	width: 15px;
 	height: 15px;
 	border-radius: 50%;
@@ -57,8 +147,8 @@ Predziały dla z-index
 	z-index: 9;
 }
 
-.tram-marker-good {
-	background-color: #00FF00;
+.tram-crowd-2 {
+	background-color: var(--color-crows-2);
 	width: 15px;
 	height: 15px;
 	border-radius: 50%;
@@ -66,8 +156,8 @@ Predziały dla z-index
 	z-index: 9;
 }
 
-.tram-marker-good-average {
-	background-color: #7FFF00;
+.tram-crowd-3 {
+	background-color: var(--color-crows-3);
 	width: 15px;
 	height: 15px;
 	border-radius: 50%;
@@ -75,8 +165,8 @@ Predziały dla z-index
 	z-index: 9;
 }
 
-.tram-marker-average {
-	background-color: #FFFF00;
+.tram-crowd-4 {
+	background-color: var(--color-crows-4);
 	width: 15px;
 	height: 15px;
 	border-radius: 50%;
@@ -84,8 +174,8 @@ Predziały dla z-index
 	z-index: 9;
 }
 
-.tram-marker-average-bad {
-	background-color: #FFFF00;
+.tram-crowd-5 {
+	background-color: var(--color-crows-5);
 	width: 15px;
 	height: 15px;
 	border-radius: 50%;
@@ -94,14 +184,6 @@ Predziały dla z-index
 }
 
 
-.tram-marker-bad {
-	background-color: #FF0000;
-	width: 15px;
-	height: 15px;
-	border-radius: 50%;
-	cursor: pointer;
-	z-index: 9;
-}
 
 .colors {
 	background: #44acab;

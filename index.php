@@ -8,6 +8,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 		<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
 		<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
+		<script type="text/javascript" src="./data/timetable.js"></script>
 		<script type="text/javascript" src="./data/stops.js"></script> 
 		<script type="text/javascript" src="./scripts/tram_class.js"></script> 
 	</head>
@@ -28,6 +29,18 @@
 		<button class="play-faster-button" onclick="runTimeFaster()" type="submit">
 			<img src="./img/play-faster.png" width="30px" height="15px" alt="submit" />
 		</button>
+		
+		<div class="box-shadow ">
+			<div class="box-shadow-row">
+				<div class="box-shadow-column" style="background-color:#6BC926;"> <p>pusto</p> </div>
+				<div class="box-shadow-column" style="background-color:#D1CF1E;"> <p>więcej</p> </div>
+				<div class="box-shadow-column" style="background-color:#EFBB0F;"> <p>sreednio</p> </div>
+				<div class="box-shadow-column" style="background-color:#EF7120;"> <p>sporo</p> </div>
+				<div class="box-shadow-column" style="background-color:#EF2A36;"> <p>za dużo</p> </div>
+			</div>
+		</div>
+		
+		<!--<div class="colors"></div>-->
 		
 		<script>
 			/* INIT MAPBOX */
@@ -74,12 +87,17 @@
 			var h = today.getHours();
 			var day = today.getDay();
 			
+			h=18;
+			min=6;
+			
 			var STATE_STOP = 0;
 			var STATE_RUN = 1;
 			var STATE_RUN_FASTER = 5;
 			
 			var current_speed = 1;
 
+			var trams = [];
+			
 			/* TIME */
 			function checkTime(time){ return time<10 ? '0'+time : time }
 			function addSec(sec){ return sec<59? sec+1 : 0 }
@@ -111,29 +129,6 @@
 				}
 			}
 			
-			/* TMP */
-			var el_good = document.createElement('div');
-			el_good.className = 'tram-marker-good';
-
-			var el_good_average = document.createElement('div');
-			el_good_average.className = 'tram-marker-good-average';
-			
-			var el_average = document.createElement('div');
-			el_average.className = 'tram-marker-average';
-			
-			var el_bad = document.createElement('div');
-			el_bad.className = 'tram-marker-bad';
-			
-			var trams = [];
-			
-			var obj = new tram(50, "Krowodrza Górka", 19.950464166666666, 50.01358722222222, "Kurdwanow P+R", "Witosa", new mapboxgl.Marker(el_good_average).setLngLat([19.950464166666666, 50.01358722222222]).addTo(map));
-			trams.push(obj);
-			
-			obj = new tram(50, "Krowodrza Górka _2", 19.920464166666666, 50.03358722222222, "Kurdwanow P+R", "Witosa", new mapboxgl.Marker(el_average).setLngLat([19.950464166666666, 50.01358722222222]).addTo(map));
-			trams.push(obj);
-						
-			//trams.splice(2,1);
-					
 			/* MAIN LOOP */
 			function update() {
 				sec=addSec(sec);
@@ -144,16 +139,52 @@
 				var time = weekday[day] + ", " + checkTime(h) + ":" + checkTime(min) + ":" + checkTime(sec);
 				document.getElementById("show-time").innerHTML = time;
 				
-				trams[0].setLon(trams[0].getLon()+0.0001);
-				trams[0].setLat(trams[0].getLat()+0.0001);
+				checkIfNewTramStart();
 				
 				for (var i = 0; i < trams.length; i++) {
+					trams[i].setLon(trams[i].getLon()+0.0001);
+					trams[i].setLat(trams[i].getLat()+0.0001);
+				
 					trams[i].getMarker().setLngLat([trams[i].getLon(), trams[i].getLat()]);
 				}
 				
 				if(current_speed!=0) setTimeout(update, 1000/current_speed);
 			}
 			update();
+			
+			function checkIfNewTramStart(){
+				if(sec==0){
+				var obj = JSON.parse(timetable);			
+				
+				(obj.stops).forEach(function(stop) {
+					if(stop.type == "petla"){
+						(stop.trams).forEach(function(tram) {
+							(tram.time).forEach(function(time) {
+								if(time.hours == h){
+									for(var i=0; i<time.minutes.length; i++){
+										if(time.minutes[i] == min){
+											writeMessage("Tramwaj nr " + tram.number + " wyrusza na podbój Krakowa xD");
+											trams.push(new Tram(50, "Krowodrza Górka", stop.lat, stop.lng, "Kurdwanow P+R", "Witosa", document.createElement('div')));
+											if(trams.length%2==0)
+												trams[trams.length-1].getMarkerColor().className = 'tram-crowd-4';
+											else
+												trams[trams.length-1].getMarkerColor().className = 'tram-crowd-1';
+											trams[trams.length-1].setMarker(new mapboxgl.Marker(trams[trams.length-1].getMarkerColor()).setLngLat([stop.lat, stop.lng]).addTo(map));
+										}
+									}
+								}
+							});
+						});
+					}
+				});
+									
+				}
+			}
+			
+			function writeMessage(text){
+				var time = weekday[day] + ", " + checkTime(h) + ":" + checkTime(min) + ":" + checkTime(sec);
+				console.log("[" + time + "] " + text);
+			}
 			
 
 /* TMPP **********************/		
@@ -163,7 +194,8 @@
 				
 			//trams[1].setLon(trams[1].getLon()+0.0002);
 			//trams[1].setLat(trams[1].getLat()-0.0001);
-				
+									//trams.splice(0,1)
+
 				
 			//var queue = [];
 			//queue.push(obj);
