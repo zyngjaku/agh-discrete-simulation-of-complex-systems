@@ -9,7 +9,9 @@
 		<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
 		<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
 		<script type="text/javascript" src="./data/timetable.js"></script>
+		<script type="text/javascript" src="./data/tramwaje.js"></script>
 		<script type="text/javascript" src="./data/stops.js"></script> 
+		<script type="text/javascript" src="./data/routes.js"></script> 
 		<script type="text/javascript" src="./scripts/tram_class.js"></script> 
 	</head>
 	 
@@ -87,12 +89,13 @@
 			var h = today.getHours();
 			var day = today.getDay();
 			
-			h=18;
-			min=6;
+			h=9;
+			min=59;
+			sec=59;
 			
 			var STATE_STOP = 0;
 			var STATE_RUN = 1;
-			var STATE_RUN_FASTER = 5;
+			var STATE_RUN_FASTER = 10; //5
 			
 			var current_speed = 1;
 
@@ -139,13 +142,103 @@
 				var time = weekday[day] + ", " + checkTime(h) + ":" + checkTime(min) + ":" + checkTime(sec);
 				document.getElementById("show-time").innerHTML = time;
 				
-				checkIfNewTramStart();
+				checkIfNewTramStart2();
 				
 				for (var i = 0; i < trams.length; i++) {
-					trams[i].setLon(trams[i].getLon()+0.0001);
-					trams[i].setLat(trams[i].getLat()+0.0001);
-				
-					trams[i].getMarker().setLngLat([trams[i].getLon(), trams[i].getLat()]);
+					if(trams[i].getWaiting()==0) {
+						/*
+						var tmp1=-1;
+						var tmp2=-1;
+						for(var j=0; j<przystanki.length; j++){
+							if(trams[i].getPreviousStop() == przystanki[j])
+								tmp1=j;
+							
+							if(trams[i].getNextStop() == przystanki[j])
+								tmp2=j;
+						}
+						
+						var myLat = lat_[tmp2];
+						var myLon = lon_[tmp2];
+						*/
+						
+						var obj2 = JSON.parse(routess);		
+						//console.log(obj2.routes[trams[i].getRoutesID()].from);
+						//console.log(obj2.routes[trams[i].getRoutesID()].to);
+									
+						(obj2.routes).forEach(function(route) {
+							if(route.from==trams[i].getPreviousStop() && route.to==trams[i].getNextStop()){
+								console.log(route.from);
+								if(trams[i].getTimeBetweenIntermediatePoints()==-90) {
+									trams[i].setTimeBetweenIntermediatePoints(trams[i].getNextStopIn()/(route.lon.length-trams[i].getIntermediateID()));
+								}
+								
+								if(trams[i].getLat()==route.to_loc[0] && trams[i].getLon()==route.to_loc[1]) {
+									console.log("Przystanek, juhu :D");
+									var usatione=false;
+									var obj2 = JSON.parse(tramwaje);		
+									(obj2.trams).forEach(function(trams_) {
+										if(trams_.last_stop==trams[i].getDirection()) {
+											console.log("Ten tramwaj");
+											for(var j=0; j<trams_.route.length-1; j++) {
+												console.log("trasa");
+
+												if(trams_.route[j]==trams[i].getNextStop() && !usatione){
+													trams[i].setPreviousStop(trams_.route[j]);
+													trams[i].setNextStop(trams_.route[j+1]);
+													usatione=true;
+												}
+											}
+										}
+									});
+									
+									//polaczenia[0][1]*60
+									
+									var tmp1=-1;
+									var tmp2=-1;
+									for(var j=0; j<przystanki.length; j++) {
+										if(przystanki[j]==trams[i].getPreviousStop()) {
+											tmp1=j;
+										}
+										
+										if(przystanki[j]==trams[i].getNextStop()) {
+											tmp2=j;
+										}
+									}
+									
+									trams[i].setIntermediateID(0);
+									trams[i].setNextStopIn(polaczenia[tmp1][tmp2]*60);									
+									trams[i].setTimeBetweenIntermediatePoints(-90);
+									
+									
+								}
+								else if(trams[i].getLon()==route.lon[trams[i].getIntermediateID()] && trams[i].getLat()==route.lat[trams[i].getIntermediateID()]){
+									console.log("Dojechałem tutaj i jade teraz tam xD")
+									trams[i].setIntermediateID(trams[i].getIntermediateID()+1);
+								}
+								else {
+									console.log("Jadę");
+									//console.log(">>"+route.lon[trams[i].getIntermediateID()]);
+									//console.log(">>"+route.lat[trams[i].getIntermediateID()]);
+									//console.log(((route.lon[trams[i].getIntermediateID()]-trams[i].getLon()))/trams[i].getNextStopIn());
+									//console.log(((route.lon[trams[i].getIntermediateID()]-trams[i].getLon())*route.lon.length)/trams[i].getNextStopIn());
+									trams[i].setLon(trams[i].getLon()+(route.lon[trams[i].getIntermediateID()]-trams[i].getLon())/(trams[i].getNextStopIn()-trams[i].getTimeBetweenIntermediatePoints()*(route.lon.length-trams[i].getIntermediateID()-1)));
+									trams[i].setLat(trams[i].getLat()+(route.lat[trams[i].getIntermediateID()]-trams[i].getLat())/(trams[i].getNextStopIn()-trams[i].getTimeBetweenIntermediatePoints()*(route.lat.length-trams[i].getIntermediateID()-1)));
+									console.log((route.lon[trams[i].getIntermediateID()]-trams[i].getLon())/(trams[i].getNextStopIn()-trams[i].getTimeBetweenIntermediatePoints()*(route.lon.length-trams[i].getIntermediateID()-1)));
+								}
+									
+							}
+						});
+						
+						console.log(trams[i].getNextStopIn());
+					}
+					else {
+						trams[i].setWaiting(trams[i].getWaiting()-1);
+					}						
+
+					console.log(trams[i]);
+					
+					trams[i].setNextStopIn(trams[i].getNextStopIn()-1);
+					trams[i].getMarker().setLngLat([trams[i].getLon(), trams[i].getLat()]);					
 				}
 				
 				if(current_speed!=0) setTimeout(update, 1000/current_speed);
@@ -163,12 +256,9 @@
 								if(time.hours == h){
 									for(var i=0; i<time.minutes.length; i++){
 										if(time.minutes[i] == min){
-											writeMessage("Tramwaj nr " + tram.number + " wyrusza na podbój Krakowa xD");
+											writeMessage("Tramwaj nr " + tram.number + " wyrusza na podbój Krakowa xD");											
 											trams.push(new Tram(50, "Krowodrza Górka", stop.lat, stop.lng, "Kurdwanow P+R", "Witosa", document.createElement('div')));
-											if(trams.length%2==0)
-												trams[trams.length-1].getMarkerColor().className = 'tram-crowd-4';
-											else
-												trams[trams.length-1].getMarkerColor().className = 'tram-crowd-1';
+											trams[trams.length-1].getMarkerColor().className = 'tram-crowd-1';
 											trams[trams.length-1].setMarker(new mapboxgl.Marker(trams[trams.length-1].getMarkerColor()).setLngLat([stop.lat, stop.lng]).addTo(map));
 										}
 									}
@@ -176,6 +266,49 @@
 							});
 						});
 					}
+				});
+									
+				}
+			}
+			
+			function checkIfNewTramStart2(){
+				if(sec==0){
+				var obj = JSON.parse(tramwaje);			
+				
+				(obj.trams).forEach(function(trams_) {					
+					(trams_.days).forEach(function(days_) {
+						if(days_.min_day<=day && days_.max_day>=day){
+							(days_.time).forEach(function(time_) {
+								if(time_.hours == h){
+									for(var i=0; i<time_.minutes.length; i++){
+										if(time_.minutes[i] == min){
+											writeMessage("Tramwaj nr " + trams_.number + " wyrusza na podbój Krakowa xD");
+											//writeMessage("Tramwaj nr " + trams_.number + " wyrusza z " + trams_.first_stop + " w kierunku " + trams_.last_stop);
+											
+											var tmp_i=0;
+											var flaga=true;
+											var obj2 = JSON.parse(routess);	
+											
+											(obj2.routes).forEach(function(route) {
+												if(route.from==trams_.first_stop && route.to==trams_.route[1]){
+													flaga=false;	
+												}
+												else {
+													if(flaga){
+														tmp_i+=1;
+													}
+												}
+											});
+											
+											trams.push(new Tram(trams_.number, trams_.last_stop, trams_.lat, trams_.lng, trams_.first_stop, trams_.route[1], tmp_i, polaczenia[0][1]*60, document.createElement('div')));
+											trams[trams.length-1].getMarkerColor().className = 'tram-crowd-1';
+											trams[trams.length-1].setMarker(new mapboxgl.Marker(trams[trams.length-1].getMarkerColor()).setLngLat([trams_.lat, trams_.lng]).addTo(map));
+										}
+									}
+								}
+							});
+						}
+					});
 				});
 									
 				}
