@@ -160,7 +160,9 @@
 								if(checkIfTramReachStop(i, routes_)) {
 									//Tram reach tram stop
 									
-									if(!ifTramFinishRouteAndDeleteTramIfFinish(i)) {
+									if(!ifTramFinishRouteAndDeleteTramIfFinish(i, routes_)) {
+										//Tram don't finish route
+										
 										//TODO: Ustaw ile ma czekać tramwaj i zmień kolor w zależności od natłoczenia
 									
 										setNewStopForTram(i);					
@@ -228,9 +230,9 @@
 				return trams[tram_id].getLat()==routes_.to_loc[0] && trams[tram_id].getLon()==routes_.to_loc[1];
 			}
 			
-			function ifTramFinishRouteAndDeleteTramIfFinish(tram_id) {
+			function ifTramFinishRouteAndDeleteTramIfFinish(tram_id, routes_) {
 				
-				if(trams[tram_id].getDirection()==route.to){
+				if(trams[tram_id].getDirection()==routes_.to){
 					writeMessage("Tram no. " + trams[tram_id].getNumber() + " arrived to " + trams[tram_id].getDirection());
 					trams[tram_id].getMarker().remove();
 					trams.splice(tram_id,1);
