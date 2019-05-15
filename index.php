@@ -160,9 +160,11 @@
 								if(checkIfTramReachStop(i, routes_)) {
 									//Tram reach tram stop
 									
-									//TODO: Ustaw ile ma czekać tramwaj i zmień kolor w zależności od natłoczenia
+									if(!ifTramFinishRouteAndDeleteTramIfFinish(i)) {
+										//TODO: Ustaw ile ma czekać tramwaj i zmień kolor w zależności od natłoczenia
 									
-									setNewStopForTram(i);					
+										setNewStopForTram(i);					
+									}
 								}
 								else if(checkIfTramReachIntermediatePoint(i, routes_)){
 									//Intermediate point
@@ -224,6 +226,19 @@
 			
 			function checkIfTramReachStop(tram_id, routes_) {
 				return trams[tram_id].getLat()==routes_.to_loc[0] && trams[tram_id].getLon()==routes_.to_loc[1];
+			}
+			
+			function ifTramFinishRouteAndDeleteTramIfFinish(tram_id) {
+				
+				if(trams[tram_id].getDirection()==route.to){
+					writeMessage("Tram no. " + trams[tram_id].getNumber() + " arrived to " + trams[tram_id].getDirection());
+					trams[tram_id].getMarker().remove();
+					trams.splice(tram_id,1);
+					
+					return true;
+				}
+				
+				return false;
 			}
 			
 			function checkIfTramReachIntermediatePoint(tram_id, routes_) {
