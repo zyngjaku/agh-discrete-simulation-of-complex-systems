@@ -1,5 +1,5 @@
 class Tram {
-    constructor(number, direction, longitude, latitude, previousStop, nextStop, routesID, nextStopIn, markerColor) {
+    constructor(number, direction, longitude, latitude, previousStop, nextStop, routesID, nextStopIn, numer_kursu, markerColor) {
         this.number=number;
 		this.direction=direction;
 		this.longitude=longitude;
@@ -16,7 +16,21 @@ class Tram {
 		this.numberOfPassengers=0;
 		this.directionLat=-255;
 		this.directionLon=-255;
+		this.numer_kursu=numer_kursu;
+		this.numer_przystanku=0;
     }
+	
+	getNumerPrzystanku() {
+		return this.numer_przystanku;
+	}
+	
+	setNumerPrzystanku(numer_przystanku) {
+		this.numer_przystanku=numer_przystanku;
+	}
+	
+	getNumerKursu() {
+		return this.numer_kursu;
+	}
 	
 	getDirectionLat() {
 		return this.directionLat;
