@@ -273,11 +273,7 @@
 				return trams[tram_id].getLon()==routes_.lon[trams[tram_id].getIntermediateID()] && trams[tram_id].getLat()==routes_.lat[trams[tram_id].getIntermediateID()];
 			}
 			
-			function setNewStopForTram(tram_id) {
-				trams[tram_id].setIntermediateID(0);
-				trams[tram_id].setNextStopIn(findTimeToNextStop(tram_id));									
-				trams[tram_id].setTimeBetweenIntermediatePoints(null);
-				
+			function setNewStopForTram(tram_id) {				
 				var obj_trams = JSON.parse(tramwaje);		
 				(obj_trams.trams).forEach(function(trams_) {
 					if(trams_.last_stop==trams[tram_id].getDirection()) {
@@ -285,6 +281,10 @@
 							if(trams_.route[j]==trams[tram_id].getNextStop()){
 								trams[tram_id].setPreviousStop(trams_.route[j]);
 								trams[tram_id].setNextStop(trams_.route[j+1]);
+								
+								trams[tram_id].setIntermediateID(0);
+								trams[tram_id].setTimeBetweenIntermediatePoints(null);
+								trams[tram_id].setNextStopIn(findTimeToNextStop(tram_id));
 								return true;
 							}
 						}
@@ -322,7 +322,11 @@
 						secondId=j;
 					}
 				}
-				
+				console.log(trams[tram_id].getPreviousStop());
+				console.log(trams[tram_id].getNextStop());
+				console.log(polaczenia[firstId][secondId])
+				console.log(firstId)
+				console.log(secondId)
 				return polaczenia[firstId][secondId]*60
 			}
 			
