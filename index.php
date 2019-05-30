@@ -10,7 +10,7 @@
 		<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
 		<script type="text/javascript" src="./scripts/timetable.js"></script>
 		<script type="text/javascript" src="./scripts/tramwaje.js"></script>
-		<script type="text/javascript" src="./scripts/stops.js"></script> 
+		<script type="text/javascript" src="./scripts/stops.js" charset="utf-8"></script> 
 		<script type="text/javascript" src="./scripts/routes.js"></script> 
 		<script type="text/javascript" src="./scripts/tram_fill.js"></script> 
 		<script type="text/javascript" src="./scripts/tram_class.js"></script> 
@@ -90,8 +90,8 @@
 			var h = today.getHours();
 			var day = today.getDay();
 			
-			h=5;
-			min=03;
+			h=23;
+			min=59;
 			sec=59;
 			
 			var STATE_STOP = 0;
@@ -148,23 +148,34 @@
 				manageTime();				
 				checkIfNewTramStart();
 				
-				for (var i = 0; i < trams.length; i++) {
-					if(trams[i].getWaiting()==0) {					
+				var i=0;
+				while(i < trams.length){ 
+					var isDeleted = false;
+					
+					if(trams[i].getWaiting()==0) {	
+						if(trams[i].getLat() > 50.151558 || trams[i].getLat() < 49.955369){
+							console.log("### Tramwaj widmo ###")
+							console.log(trams[i].getNumber());
+							console.log(trams[i].getPreviousStop());
+							console.log(trams[i].getNextStop());							
+							console.log("#####################");
+						}
+					
 						var obj_routes = JSON.parse(routes);		
 									
 						(obj_routes.routes).forEach(function(routes_) {
+							if(!isDeleted){
 							if(routes_.from==trams[i].getPreviousStop() && routes_.to==trams[i].getNextStop()){
 								if(trams[i].getTimeBetweenIntermediatePoints()==null) {
 									trams[i].setTimeBetweenIntermediatePoints(trams[i].getNextStopIn()/(routes_.lon.length-trams[i].getIntermediateID()));
 								}
 								
 								if(checkIfTramReachStop(i, routes_)) {
-									//Tram reach tram stop
-									
+									//Tram reach tram stop								
 									if(!ifTramFinishRouteAndDeleteTramIfFinish(i, routes_)) {
 										//Tram don't finish route
 										trams[i].setNumerPrzystanku(trams[i].getNumerPrzystanku()+1);
-										
+										/*
 										var obj_fill = JSON.parse(tram_fill);		
 										(obj_fill.trams).forEach(function(trams_) {
 											if(trams_.number==trams[i].getNumber()) {
@@ -187,10 +198,18 @@
 												});
 											}
 										});
-										
+										*/
 										//TODO: Ustaw ile ma czekać tramwaj i zmień kolor w zależności od natłoczenia
 									
-										setNewStopForTram(i);										
+										setNewStopForTram(i);
+
+										//console.log(trams[i].getNumber() + " " + trams[i].getDirection())
+										//console.log(trams[i].getPreviousStop() + " " + trams[i].getNextStop())
+
+									}
+									else{
+										isDeleted=true;
+										console.log("Trams left: " + trams.length);
 									}
 								}
 								else if(checkIfTramReachIntermediatePoint(i, routes_)){
@@ -203,6 +222,8 @@
 									trams[i].setLat(trams[i].getLat()+(routes_.lat[trams[i].getIntermediateID()]-trams[i].getLat())/(trams[i].getNextStopIn()-trams[i].getTimeBetweenIntermediatePoints()*(routes_.lat.length-trams[i].getIntermediateID()-1)));
 								}
 									
+							
+							}
 							}
 						});
 					}
@@ -210,8 +231,11 @@
 						trams[i].setWaiting(trams[i].getWaiting()-1);
 					}						
 					
-					trams[i].setNextStopIn(trams[i].getNextStopIn()-1);
-					trams[i].getMarker().setLngLat([trams[i].getLon(), trams[i].getLat()]);					
+					if(!isDeleted){
+						trams[i].setNextStopIn(trams[i].getNextStopIn()-1);
+						trams[i].getMarker().setLngLat([trams[i].getLon(), trams[i].getLat()]);	
+						i+=1;
+					}
 				}
 				
 				if(current_speed!=0) setTimeout(update, 1000/current_speed);
@@ -232,13 +256,13 @@
 											numer_kursu+=1;
 											if(time_.minutes[i] == min){
 												writeMessage("Tram no. " + trams_.number + " start from " + trams_.first_stop + " in direction " + trams_.last_stop);
-												console.log(numer_kursu);
 												var counter_routesID = findRoutesID(trams_);
 												
 												trams.push(new Tram(trams_.number, trams_.last_stop, trams_.lat, trams_.lng, trams_.first_stop, trams_.route[1], counter_routesID, null, numer_kursu, document.createElement('div')));
 												trams[trams.length-1].setNextStopIn(findTimeToNextStop(trams.length-1));									
 												trams[trams.length-1].getMarkerColor().className = 'tram-crowd-1';
 												trams[trams.length-1].setMarker(new mapboxgl.Marker(trams[trams.length-1].getMarkerColor()).setLngLat([trams_.lat, trams_.lng]).addTo(map));
+												console.log("Trams left: " + trams.length);
 											}
 										}
 									}
@@ -276,7 +300,7 @@
 			function setNewStopForTram(tram_id) {				
 				var obj_trams = JSON.parse(tramwaje);		
 				(obj_trams.trams).forEach(function(trams_) {
-					if(trams_.last_stop==trams[tram_id].getDirection()) {
+					if(trams_.last_stop==trams[tram_id].getDirection() && trams_.number==trams[tram_id].getNumber()) {
 						for(var j=0; j<trams_.route.length-1; j++) {
 							if(trams_.route[j]==trams[tram_id].getNextStop()){
 								trams[tram_id].setPreviousStop(trams_.route[j]);
@@ -322,11 +346,11 @@
 						secondId=j;
 					}
 				}
-				console.log(trams[tram_id].getPreviousStop());
-				console.log(trams[tram_id].getNextStop());
-				console.log(polaczenia[firstId][secondId])
-				console.log(firstId)
-				console.log(secondId)
+				if(polaczenia[firstId][secondId] == null){
+					console.log(trams[tram_id].getPreviousStop() + " -> " + trams[tram_id].getNextStop());
+					console.log(firstId + " -> " + secondId);
+					console.log(polaczenia[firstId][secondId]);
+				}
 				return polaczenia[firstId][secondId]*60
 			}
 			
