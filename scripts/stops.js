@@ -59,17 +59,6 @@ var geojson={"type": "FeatureCollection",
 	"type": "Feature",
 	"geometry": {
 		"type": "Point",
-		"coordinates": [19.950464166666666, 50.01358722222222]
-	},
-	"properties": {
-		"title": "Kurdwanow",
-		"description": ""
-	}
-},
-{
-	"type": "Feature",
-	"geometry": {
-		"type": "Point",
 		"coordinates": [19.93394222222222, 50.0244775]
 	},
 	"properties": {
@@ -513,7 +502,7 @@ var geojson={"type": "FeatureCollection",
 		"coordinates": [19.951106944444444, 50.051105]
 	},
 	"properties": {
-		"title": "Œw.Wawrzynca",
+		"title": "Åšw.Wawrzynca",
 		"description": ""
 	}
 },
@@ -851,7 +840,7 @@ var geojson={"type": "FeatureCollection",
 	"type": "Feature",
 	"geometry": {
 		"type": "Point",
-		"coordinates": [19.93780138888889, 50.08072777777778]
+		"coordinates": [19.961031944444443, 50.08072777777778]
 	},
 	"properties": {
 		"title": "Pradnicka",
@@ -995,17 +984,6 @@ var geojson={"type": "FeatureCollection",
 	"geometry": {
 		"type": "Point",
 		"coordinates": [19.961031944444443, 50.04215722222222]
-	},
-	"properties": {
-		"title": "Powstancow Wielkopolskich",
-		"description": ""
-	}
-},
-{
-	"type": "Feature",
-	"geometry": {
-		"type": "Point",
-		"coordinates": [19.93780138888889, 50.08072777777778]
 	},
 	"properties": {
 		"title": "Podgorze SKA",
@@ -1217,7 +1195,7 @@ var geojson={"type": "FeatureCollection",
 		"coordinates": [20.001500555555555, 50.03990611111111]
 	},
 	"properties": {
-		"title": "Maly Plaszow",
+		"title": "Maly Plaszow P+R",
 		"description": ""
 	}
 },
@@ -1302,17 +1280,6 @@ var geojson={"type": "FeatureCollection",
 	"type": "Feature",
 	"geometry": {
 		"type": "Point",
-		"coordinates": [19.983918055555556, 50.071644166666665]
-	},
-	"properties": {
-		"title": "Wieczysta",
-		"description": ""
-	}
-},
-{
-	"type": "Feature",
-	"geometry": {
-		"type": "Point",
 		"coordinates": [19.977598055555557, 50.067725833333334]
 	},
 	"properties": {
@@ -1328,17 +1295,6 @@ var geojson={"type": "FeatureCollection",
 	},
 	"properties": {
 		"title": "Plaza",
-		"description": ""
-	}
-},
-{
-	"type": "Feature",
-	"geometry": {
-		"type": "Point",
-		"coordinates": [19.9873725, 50.06393416666667]
-	},
-	"properties": {
-		"title": "Lema",
 		"description": ""
 	}
 },
@@ -1676,17 +1632,6 @@ var geojson={"type": "FeatureCollection",
 	"type": "Feature",
 	"geometry": {
 		"type": "Point",
-		"coordinates": [20.03811333333333, 50.08520361111111]
-	},
-	"properties": {
-		"title": "Kocmyrzowska",
-		"description": ""
-	}
-},
-{
-	"type": "Feature",
-	"geometry": {
-		"type": "Point",
 		"coordinates": [20.04767777777778, 50.0870175]
 	},
 	"properties": {
@@ -1812,17 +1757,6 @@ var geojson={"type": "FeatureCollection",
 	},
 	"properties": {
 		"title": "Kombinat",
-		"description": ""
-	}
-},
-{
-	"type": "Feature",
-	"geometry": {
-		"type": "Point",
-		"coordinates": [20.084641944444446, 50.064634444444444]
-	},
-	"properties": {
-		"title": "Jezynowa",
 		"description": ""
 	}
 },
