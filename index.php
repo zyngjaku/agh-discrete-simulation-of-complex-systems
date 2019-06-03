@@ -43,7 +43,10 @@
 			</div>
 		</div>
 		
-		<!--<div class="colors"></div>-->
+		
+		<div id="right-box"> </div>
+
+		
 		
 		<script>
 			/* INIT MAPBOX */
@@ -71,8 +74,29 @@
 
 			/* ON LOAD WEBSITE */
 			window.onload = function () { 
-				//alert("It's loaded!") 
+				var all_trams = [1, 2, 3, 5, 9, 10, 11, 14, 16, 18, 19, 21, 22, 24, 44, 50, 52, 62, 69, 71, 73, 76, 77, 78]
+
+				all_trams.forEach(function(all_trams_) {
+					var div = document.getElementById("right-box");
+				 
+					var button = document.createElement("button");
+					button.innerHTML = all_trams_;
+				 
+					div.appendChild(button);
+				});		
 			}
+			
+			/*
+			document.addEventListener('click', function (event) {
+				if (!event.target.matches('button')) return;
+				event.preventDefault();
+				
+				console.log(event.target.lastChild.data);
+				event.target.toggleClass('active'); 
+
+			}, false);
+			*/
+		
 			
 			/* DECLARE VARIABLES */
 			var weekday = new Array(7);
@@ -90,7 +114,8 @@
 			var h = today.getHours();
 			var day = today.getDay();
 			
-			h=23;
+			day=1
+			h=1;
 			min=59;
 			sec=59;
 			
@@ -142,7 +167,7 @@
 					current_speed = STATE_RUN_FASTER;
 				}
 			}
-			
+			//trams_to_show = ["50", "78"];
 			/* MAIN LOOP */
 			function update() {
 				manageTime();				
@@ -175,20 +200,20 @@
 									if(!ifTramFinishRouteAndDeleteTramIfFinish(i, routes_)) {
 										//Tram don't finish route
 										trams[i].setNumerPrzystanku(trams[i].getNumerPrzystanku()+1);
-										/*
+										
 										var obj_fill = JSON.parse(tram_fill);		
 										(obj_fill.trams).forEach(function(trams_) {
 											if(trams_.number==trams[i].getNumber()) {
 												(trams_.days).forEach(function(days_) {
 													if(days_.min_day<=day && days_.max_day>=day){
 														var tmp = days_.fill[trams[i].getNumerKursu()-1].num_of_passengers[trams[i].getNumerPrzystanku()];
-														if(tmp < 10)
+														if(tmp < 200*0.2)
 															trams[i].getMarkerColor().className = 'tram-crowd-1';
-														else if(tmp < 20)
+														else if(tmp < 200*0.4)
 															trams[i].getMarkerColor().className = 'tram-crowd-2';
-														else if(tmp < 30)
+														else if(tmp < 200*0.6)
 															trams[i].getMarkerColor().className = 'tram-crowd-3';
-														else if(tmp < 40)
+														else if(tmp < 200*0.8)
 															trams[i].getMarkerColor().className = 'tram-crowd-4';
 														else
 															trams[i].getMarkerColor().className = 'tram-crowd-5';
@@ -198,7 +223,6 @@
 												});
 											}
 										});
-										*/
 										//TODO: Ustaw ile ma czekać tramwaj i zmień kolor w zależności od natłoczenia
 									
 										setNewStopForTram(i);
@@ -234,6 +258,16 @@
 					if(!isDeleted){
 						trams[i].setNextStopIn(trams[i].getNextStopIn()-1);
 						trams[i].getMarker().setLngLat([trams[i].getLon(), trams[i].getLat()]);	
+						
+						/*
+						if(trams_to_show.includes(trams[i].getNumber())){
+							trams[i].getMarker().addTo(map);
+						}
+						else{
+							trams[i].getMarker().remove();
+						}
+						*/
+						
 						i+=1;
 					}
 				}
