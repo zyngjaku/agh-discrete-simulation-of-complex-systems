@@ -20,7 +20,7 @@ body {
 
 #map {
 	height: 100%;
-	width: 97%; 
+	width: calc(96%); 
 	float: left;
 	margin: 0;
 	padding: 0;
@@ -37,13 +37,11 @@ body:after {
   
 #right-box {
 	height: 100%;
-	width: calc(3% - 11px); 
+	width: calc(4% - 11px); 
 	margin: 0;
 	padding: 5px;
-	overflow: hidden;
 	border-left: 1px dotted black;
-	
-	overflow: auto;
+	overflow-x: auto;
 }
 
 
@@ -67,55 +65,23 @@ Predziały z-index
 
 #right-box button {
 	background-color: white;
-	width: calc(3vw - 11px);
-	height: calc(3vw - 11px);
+	width: 100%;
+	height: auto;
+	max-height: 3vw;
 	padding: 2px;
 	margin-bottom: 5px;
-	
 	color: #12B5E8;
-	
-	font-size: 1.5vw;
-	
+	font-size: 1.25vw;
 	border: 1px solid #12B5E8;
 	border-radius: 4px;
-
-	
 	float: center;
 	vertical-align: middle;
-	
-	
 }
 
 #right-box button:hover {
 	background-color: #12B5E8;
 	color: black;
 }
-
-
-/*
-button {
-	background-color: #4CAF50;
-	border: 2px solid black;
-	border-radius: 2px;
-	color: white;
-	padding: 5px 5px;
-	width: calc(4vw - 11px);
-	height: calc(4vw - 11px);
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-	margin: 4px 2px;
-	cursor: pointer;
-	z-index: 99;
-}
-
-.button1 {background-color: #ffffff; color: black;} 
-.button2 {background-color: #008CBA;} 
-.button3 {background-color: #f44336;} 
-.button4 {background-color: #e7e7e7; color: black;} 
-.button5 {background-color: #555555;} 
-*/
 
 .box-shadow {
 	position: absolute;

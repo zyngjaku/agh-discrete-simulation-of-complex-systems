@@ -43,13 +43,38 @@
 			</div>
 		</div>
 		
-		
-		<div id="right-box"> </div>
+		<div id="right-box"> 
+			<button onclick="buttonShowOrHideTram(this, '1')">1</button>
+			<button onclick="buttonShowOrHideTram(this, '2')">2</button>
+			<button onclick="buttonShowOrHideTram(this, '3')">3</button>
+			<button onclick="buttonShowOrHideTram(this, '5')">5</button>
+			<button onclick="buttonShowOrHideTram(this, '9')">9</button>
+			<button onclick="buttonShowOrHideTram(this, '10')">10</button>
+			<button onclick="buttonShowOrHideTram(this, '11')">11</button>
+			<button onclick="buttonShowOrHideTram(this, '14')">14</button>
+			<button onclick="buttonShowOrHideTram(this, '16')">16</button>
+			<button onclick="buttonShowOrHideTram(this, '18')">18</button>
+			<button onclick="buttonShowOrHideTram(this, '19')">19</button>
+			<button onclick="buttonShowOrHideTram(this, '21')">21</button>
+			<button onclick="buttonShowOrHideTram(this, '22')">22</button>
+			<button onclick="buttonShowOrHideTram(this, '24')">24</button>
+			<button onclick="buttonShowOrHideTram(this, '44')">44</button>
+			<button onclick="buttonShowOrHideTram(this, '50')">50</button>
+			<button onclick="buttonShowOrHideTram(this, '52')">52</button>
+			<button onclick="buttonShowOrHideTram(this, '62')">62</button>
+			<button onclick="buttonShowOrHideTram(this, '69')">69</button>
+			<button onclick="buttonShowOrHideTram(this, '71')">71</button>
+			<button onclick="buttonShowOrHideTram(this, '73')">73</button>
+			<button onclick="buttonShowOrHideTram(this, '76')">76</button>
+			<button onclick="buttonShowOrHideTram(this, '77')">77</button>
+			<button onclick="buttonShowOrHideTram(this, '78')">78</button>
+
+		</div>
 
 		
 		
 		<script>
-			/* INIT MAPBOX */
+						/* INIT MAPBOX */
 			mapboxgl.accessToken = 'pk.eyJ1IjoienluZ2llciIsImEiOiJjanRiYXY3bHkwaXdqNDNwY2MydDcwMG1kIn0.4AC7oex5FdmCaTQPiUnJ5Q';
 			var map = new mapboxgl.Map({
 				container: 'map',
@@ -74,29 +99,8 @@
 
 			/* ON LOAD WEBSITE */
 			window.onload = function () { 
-				var all_trams = [1, 2, 3, 5, 9, 10, 11, 14, 16, 18, 19, 21, 22, 24, 44, 50, 52, 62, 69, 71, 73, 76, 77, 78]
-
-				all_trams.forEach(function(all_trams_) {
-					var div = document.getElementById("right-box");
-				 
-					var button = document.createElement("button");
-					button.innerHTML = all_trams_;
-				 
-					div.appendChild(button);
-				});		
-			}
 			
-			/*
-			document.addEventListener('click', function (event) {
-				if (!event.target.matches('button')) return;
-				event.preventDefault();
-				
-				console.log(event.target.lastChild.data);
-				event.target.toggleClass('active'); 
-
-			}, false);
-			*/
-		
+			}		
 			
 			/* DECLARE VARIABLES */
 			var weekday = new Array(7);
@@ -115,16 +119,17 @@
 			var day = today.getDay();
 			
 			day=1
-			h=1;
+			h=5;
 			min=59;
 			sec=59;
 			
 			var STATE_STOP = 0;
-			var STATE_RUN = 1;
-			var STATE_RUN_FASTER = 10;
+			var STATE_RUN = 10;
+			var STATE_RUN_FASTER = 50;
 			
-			var current_speed = 1;
-
+			var current_speed = STATE_RUN;
+			
+			var trams_to_show = ["1", "2", "3", "5", "9", "10", "11", "14", "16", "18", "19", "21", "22", "24", "44", "50", "52", "62", "69", "71", "73", "76", "77", "78"];
 			var trams = [];
 			
 			/* TIME */
@@ -167,7 +172,7 @@
 					current_speed = STATE_RUN_FASTER;
 				}
 			}
-			//trams_to_show = ["50", "78"];
+			
 			/* MAIN LOOP */
 			function update() {
 				manageTime();				
@@ -179,11 +184,8 @@
 					
 					if(trams[i].getWaiting()==0) {	
 						if(trams[i].getLat() > 50.151558 || trams[i].getLat() < 49.955369){
-							console.log("### Tramwaj widmo ###")
-							console.log(trams[i].getNumber());
-							console.log(trams[i].getPreviousStop());
-							console.log(trams[i].getNextStop());							
-							console.log("#####################");
+							//Cheking if tram isn't out of the Cracow
+							console.log("Error: Tram no. " + trams[i].getNumber() + " got lost while going from " + trams[i].getPreviousStop() + " to " + trams[i].getNextStop() + " :/");
 						}
 					
 						var obj_routes = JSON.parse(routes);		
@@ -206,17 +208,7 @@
 											if(trams_.number==trams[i].getNumber()) {
 												(trams_.days).forEach(function(days_) {
 													if(days_.min_day<=day && days_.max_day>=day){
-														var tmp = days_.fill[trams[i].getNumerKursu()-1].num_of_passengers[trams[i].getNumerPrzystanku()];
-														if(tmp < 200*0.2)
-															trams[i].getMarkerColor().className = 'tram-crowd-1';
-														else if(tmp < 200*0.4)
-															trams[i].getMarkerColor().className = 'tram-crowd-2';
-														else if(tmp < 200*0.6)
-															trams[i].getMarkerColor().className = 'tram-crowd-3';
-														else if(tmp < 200*0.8)
-															trams[i].getMarkerColor().className = 'tram-crowd-4';
-														else
-															trams[i].getMarkerColor().className = 'tram-crowd-5';
+														determineTramColor(i, days_.fill[trams[i].getNumerKursu()-1].num_of_passengers[trams[i].getNumerPrzystanku()]);
 														
 														trams[i].setMarker(new mapboxgl.Marker(trams[i].getMarkerColor()).setLngLat([trams[i].getLat(), trams[i].getLon()]).addTo(map));
 													}
@@ -226,14 +218,11 @@
 										//TODO: Ustaw ile ma czekać tramwaj i zmień kolor w zależności od natłoczenia
 									
 										setNewStopForTram(i);
-
-										//console.log(trams[i].getNumber() + " " + trams[i].getDirection())
-										//console.log(trams[i].getPreviousStop() + " " + trams[i].getNextStop())
-
 									}
 									else{
 										isDeleted=true;
-										console.log("Trams left: " + trams.length);
+										console.clear();
+										console.log("Numbers of trams in use: " + trams.length);
 									}
 								}
 								else if(checkIfTramReachIntermediatePoint(i, routes_)){
@@ -259,14 +248,12 @@
 						trams[i].setNextStopIn(trams[i].getNextStopIn()-1);
 						trams[i].getMarker().setLngLat([trams[i].getLon(), trams[i].getLat()]);	
 						
-						/*
 						if(trams_to_show.includes(trams[i].getNumber())){
 							trams[i].getMarker().addTo(map);
 						}
 						else{
 							trams[i].getMarker().remove();
 						}
-						*/
 						
 						i+=1;
 					}
@@ -275,6 +262,58 @@
 				if(current_speed!=0) setTimeout(update, 1000/current_speed);
 			}
 			update();
+
+			function determineTramColor(tram_id, number_of_passengers_in_tram) {
+				if(number_of_passengers_in_tram > 200*0.8)
+					trams[tram_id].getMarkerColor().className = 'tram-crowd-5';
+				else if(number_of_passengers_in_tram > 200*0.6)
+					trams[tram_id].getMarkerColor().className = 'tram-crowd-4';
+				else if(number_of_passengers_in_tram > 200*0.4)
+					trams[tram_id].getMarkerColor().className = 'tram-crowd-3';
+				else if(number_of_passengers_in_tram > 200*0.2)
+					trams[tram_id].getMarkerColor().className = 'tram-crowd-2';
+				else
+					trams[tram_id].getMarkerColor().className = 'tram-crowd-1';
+			}
+
+			function changeColorOfButton(this_, makeButtonActive){				
+				if(makeButtonActive) {
+					this_.style.backgroundColor = "#12B5E8";
+					this_.style.color = "#000";
+				}
+				else {
+					this_.style.backgroundColor = "#fff"
+					this_.style.color = "#12B5E8";
+				}
+			}
+		
+			function buttonShowOrHideTram(this_, number) {
+				if(trams_to_show.includes(number)) {
+					for(var tram_id=0; tram_id<trams_to_show.length; tram_id+=1) {
+						if(trams_to_show[tram_id] == number) {
+							trams_to_show.splice(tram_id,1);
+						}
+					}
+					
+					changeColorOfButton(this_, true);
+				}
+				else {
+					trams_to_show.push(number);
+					
+					changeColorOfButton(this_, false);
+				}
+				
+				if(current_speed == 0){
+					for(var tram_id=0; tram_id<trams.length; tram_id+=1){
+						if(trams_to_show.includes(trams[tram_id].getNumber())){
+							trams[tram_id].getMarker().addTo(map);
+						}
+						else{
+							trams[tram_id].getMarker().remove();
+						}
+					}
+				}
+			}
 			
 			function checkIfNewTramStart() {
 				if(sec==0){
@@ -296,7 +335,9 @@
 												trams[trams.length-1].setNextStopIn(findTimeToNextStop(trams.length-1));									
 												trams[trams.length-1].getMarkerColor().className = 'tram-crowd-1';
 												trams[trams.length-1].setMarker(new mapboxgl.Marker(trams[trams.length-1].getMarkerColor()).setLngLat([trams_.lat, trams_.lng]).addTo(map));
-												console.log("Trams left: " + trams.length);
+												
+												console.clear();
+												console.log("Numbers of trams in use: " + trams.length);
 											}
 										}
 									}
@@ -305,8 +346,8 @@
 									}
 								});
 							}
-						});
 					});					
+					});
 				}
 			}
 			
