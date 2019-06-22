@@ -8,7 +8,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 		<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
 		<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
-		<script type="text/javascript" src="./scripts/trams.js" charset="utf-8"></script>
+		<script type="text/javascript" src="./scripts/trams_schedule.js" charset="utf-8"></script>
 		<script type="text/javascript" src="./scripts/stops.js" charset="utf-8"></script> 
 		<script type="text/javascript" src="./scripts/routes.js" charset="utf-8"></script> 
 		<script type="text/javascript" src="./scripts/connections.js" charset="utf-8"></script> 
