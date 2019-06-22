@@ -90,11 +90,7 @@ Predziały z-index
 	width: 150px;
 	height: 120px;
 	z-index: 99;
-	
 	transition: transform 0.4s;
-	
-	
-	
 	background-color: rgb(181,198,137,0.75);
 	padding: 5px 5px 5px 5px;
 	border-radius: 0 5px 0 0;
@@ -179,8 +175,6 @@ visibility:visible;
 	cursor: pointer;
 	z-index: 1;
 }
-
-
 
 .tram-crowd-1 {
 	background-color: var(--color-crows-1);

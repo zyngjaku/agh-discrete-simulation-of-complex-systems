@@ -8,12 +8,12 @@
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 		<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
 		<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
-		<script type="text/javascript" src="./scripts/timetable.js"></script>
-		<script type="text/javascript" src="./scripts/tramwaje.js"></script>
+		<script type="text/javascript" src="./scripts/trams.js" charset="utf-8"></script>
 		<script type="text/javascript" src="./scripts/stops.js" charset="utf-8"></script> 
-		<script type="text/javascript" src="./scripts/routes.js"></script> 
-		<script type="text/javascript" src="./scripts/tram_fill.js"></script> 
-		<script type="text/javascript" src="./scripts/tram_class.js"></script> 
+		<script type="text/javascript" src="./scripts/routes.js" charset="utf-8"></script> 
+		<script type="text/javascript" src="./scripts/connections.js" charset="utf-8"></script> 
+		<script type="text/javascript" src="./scripts/tram_fill.js" charset="utf-8"></script> 
+		<script type="text/javascript" src="./scripts/tram_class.js" charset="utf-8"></script> 
 	</head>
 	 
     <body>
@@ -118,10 +118,12 @@
 			var h = today.getHours();
 			var day = today.getDay();
 			
+			/*
 			day=1
-			h=5;
+			h=1;
 			min=59;
 			sec=59;
+			*/
 			
 			var STATE_STOP = 0;
 			var STATE_RUN = 10;
@@ -317,7 +319,7 @@
 			
 			function checkIfNewTramStart() {
 				if(sec==0){
-					var obj = JSON.parse(tramwaje);			
+					var obj = JSON.parse(trams_schedule);			
 					
 					(obj.trams).forEach(function(trams_) {					
 						(trams_.days).forEach(function(days_) {
@@ -373,7 +375,7 @@
 			}
 			
 			function setNewStopForTram(tram_id) {				
-				var obj_trams = JSON.parse(tramwaje);		
+				var obj_trams = JSON.parse(trams_schedule);		
 				(obj_trams.trams).forEach(function(trams_) {
 					if(trams_.last_stop==trams[tram_id].getDirection() && trams_.number==trams[tram_id].getNumber()) {
 						for(var j=0; j<trams_.route.length-1; j++) {
@@ -412,21 +414,21 @@
 			function findTimeToNextStop(tram_id) {
 				var firstId=-1;
 				var secondId=-1;
-				for(var j=0; j<przystanki.length; j++) {
-					if(przystanki[j]==trams[tram_id].getPreviousStop()) {
+				for(var j=0; j<stops_name.length; j++) {
+					if(stops_name[j]==trams[tram_id].getPreviousStop()) {
 						firstId=j;
 					}
 					
-					if(przystanki[j]==trams[tram_id].getNextStop()) {
+					if(stops_name[j]==trams[tram_id].getNextStop()) {
 						secondId=j;
 					}
 				}
-				if(polaczenia[firstId][secondId] == null){
+				if(connections[firstId][secondId] == null){
 					console.log(trams[tram_id].getPreviousStop() + " -> " + trams[tram_id].getNextStop());
 					console.log(firstId + " -> " + secondId);
-					console.log(polaczenia[firstId][secondId]);
+					console.log(connections[firstId][secondId]);
 				}
-				return polaczenia[firstId][secondId]*60
+				return connections[firstId][secondId]*60
 			}
 			
 			function writeMessage(text){

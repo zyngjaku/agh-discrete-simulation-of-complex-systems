@@ -18,7 +18,16 @@ class Tram {
 		this.directionLon=-255;
 		this.numer_kursu=numer_kursu;
 		this.numer_przystanku=0;
+		this.detour=[]
     }
+	
+	getNumber() {
+		return this.number;
+	}
+	
+	setNumber(number) {
+		this.number=number;
+	}
 	
 	getNumerPrzystanku() {
 		return this.numer_przystanku;
@@ -116,9 +125,7 @@ class Tram {
 		this.waiting = waiting;
 	}
 	
-	getNumber(){
-		return this.number;
-	}
+
 	
 	getDirection(){
 		return this.direction;
@@ -151,4 +158,5 @@ class Tram {
 	getNumberOfPassengers(){
 		return this.numberOfPassengers;
 	}
+	
 }
