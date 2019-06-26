@@ -24,7 +24,7 @@ This project has been created for the needs of the subject named "Discrete Simul
 **ScreenShoot from web application**
 ![Application screen](https://github.com/zyngjaku/agh-discrete-simulation-of-complex-systems/blob/master/img/screen.png)
 
-More infomation in Polish you can find in the documentation.
+More infomation in Polish you can [**find inside documentation**](https://github.com/zyngjaku/agh-discrete-simulation-of-complex-systems/blob/master/documentation_pl.pdf).
 
 ## Author
 **Jakub Zyngier**, who is a student at the AGH University of Science and Technology in Cracow.
