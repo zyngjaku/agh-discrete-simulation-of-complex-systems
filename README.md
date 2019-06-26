@@ -1,5 +1,29 @@
 # "Public transport simulation in terms of filling them"
 This project has been created for the needs of the subject named "Discrete Simulatio of Complex Systems".
+
+## About project
+**Technologies used:**
+* HTML5
+* CSS3
+* JavaScript
+* JQuery (JS library)
+* MapBox (OpenSource framework)
+
+**Features:**
+* trams (current) positions 
+* time management (time acceleration or freezing it)
+* following trams path
+* filtering by trams number
+* current trams filling (using color scale)
+
+**TODO:**
+* detours due to accidents
+* time unloading trams jam
+* counting necessary, extra trams needed while delays (caused by detours) 
+
+**ScreenShoot's from web application**
+![Application screen](https://github.com/zyngjaku/agh-discrete-simulation-of-complex-systems/blob/master/img/screen.png)
+
 More infomation in Polish you can find in the documentation.
 
 ## Author
