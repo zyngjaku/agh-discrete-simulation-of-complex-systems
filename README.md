@@ -21,7 +21,7 @@ This project has been created for the needs of the subject named "Discrete Simul
 * time unloading trams jam
 * counting necessary, extra trams needed while delays (caused by detours) 
 
-**ScreenShoot's from web application**
+**ScreenShoot from web application**
 ![Application screen](https://github.com/zyngjaku/agh-discrete-simulation-of-complex-systems/blob/master/img/screen.png)
 
 More infomation in Polish you can find in the documentation.
